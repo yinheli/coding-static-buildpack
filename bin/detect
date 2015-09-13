@@ -6,6 +6,8 @@ build_dir=$1
 
 cd $build_dir
 
+exit 1
+
 echo '-----> check project'
 
 if [ -d "public" ]; then
