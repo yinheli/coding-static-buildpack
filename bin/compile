@@ -6,6 +6,8 @@ set -x            # enable debugging
 build_dir=$1
 cache_dir=$2
 
+exit 0
+
 indent() {
   sed -u 's/^/       /'
 }
