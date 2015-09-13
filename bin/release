@@ -1,0 +1,12 @@
+#!/bin/bash
+set -e
+
+build_dir=$1
+
+cat << EOF
+---
+addons:
+config_vars:
+default_process_types:
+  web: sudo nginx
+EOF

@@ -1,0 +1,49 @@
+#/bin/bash
+set -e
+
+build_dir=$1
+cache_dir=$2
+
+indent() {
+  sed -u 's/^/       /'
+}
+
+command_exists() {
+    command -v "$@" > /dev/null 2>&1
+}
+
+echo '------> check node gulp bower'
+
+if command_exists node; then
+    echo 'found node' | indent
+    PATH=$PATH:$cache_dir/vendor/node/bin
+else
+    cd $cache_dir
+    mkdir -p vendor
+    cd vendor
+    wget http://nodejs.org/dist/v0.12.4/node-v0.12.4-linux-x64.tar.gz -O "node.tar.gz"
+    tar -xzf node.tar.gz
+    mkdir -p node
+    mv node-v0.12.4-linux-x64/* node/
+    rm -rf node-v0.12.4-linux-x64 && rm -f node.tar.gz
+    PATH=$PATH:$cache_dir/vendor/node/bin
+fi
+
+if command_exists bower; then
+    echo 'found bower' | indent
+else
+    npm install -g bower
+fi
+
+if command_exists gulp; then
+    echo 'found gulp' | indent
+else
+    npm install -g gulp
+fi
+
+cd $build_dir
+
+echo '------> build project'
+gulp build:all | install
+
+echo '------> done'

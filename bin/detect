@@ -1,0 +1,13 @@
+#!/bin/bash
+set -e
+
+
+build_dir=$1
+
+cd build_dir
+
+if [ -d "public" ]; then
+    exit 0
+else
+    exit 1
+fi
